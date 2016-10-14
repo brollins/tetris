@@ -1,0 +1,14 @@
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\bin\Debug\WpfApplication2.exe.config
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\bin\Debug\WpfApplication2.exe
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\bin\Debug\WpfApplication2.pdb
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\Tetris.csprojResolveAssemblyReference.cache
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\MainWindow.g.cs
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\App.g.cs
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\WpfApplication2_MarkupCompile.cache
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\WpfApplication2_MarkupCompile.lref
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\MainWindow.baml
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\WpfApplication2.g.resources
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\WpfApplication2.Properties.Resources.resources
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\Tetris.csproj.GenerateResource.Cache
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\WpfApplication2.exe
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\WpfApplication2.pdb
