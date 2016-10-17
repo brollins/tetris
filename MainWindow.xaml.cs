@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,53 +23,80 @@ namespace WpfApplication2
     public partial class MainWindow : Window
     {
         private Block block;
-        private Block block2;
-        private Block block3;
+        private bool isColliding;
+
         public MainWindow()
         {
             InitializeComponent();
-            block = new Block(1, 1, Color.FromArgb(255, 255, 255, 255));
-            block2 = new Block(2, 2, Color.FromArgb(255, 255, 255, 255));
-            block3 = new Block(1, 2, Color.FromArgb(255, 255, 255, 255));
+            block = new Block(200, 1, Color.FromArgb(255, 245, 25, 235));            
             block.Draw(bobross);
-            block2.Draw(bobross);
-            block3.Draw(bobross);
-            
+            isColliding = false;
 
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Interval = TimeSpan.FromMilliseconds(800);
             timer.Tick += timer_Tick;
             timer.Start();
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
-            bobross.Children.Clear();
-            block.Y = block.Y + 20;
-            block.Draw(bobross);
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {            
-            if (e.Key == Key.Right)
+            checkCollision(block, bobross);
+            if (!isColliding)
             {
-                bobross.Children.Clear();
-                block.X = block.X + 20;
-                block.Draw(bobross);
-            }
-            if (e.Key == Key.Left)
-            {
-                bobross.Children.Clear();
-
-                block.X = block.X - 20;
-                block.Draw(bobross);
-            }
-            if (e.Key == Key.Down)
-            {
+                Debug.WriteLine(isColliding);
                 bobross.Children.Clear();
                 block.Y = block.Y + 20;
                 block.Draw(bobross);
+            }      
+            if(isColliding)
+            {
+                bobross.Children.Clear();
+                ;
             }
+            
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key == Key.Right)
+            {
+                checkCollision(block, bobross);
+                if (!isColliding)
+                {
+                    bobross.Children.Clear();
+                    block.X = block.X + 20;
+                    block.Draw(bobross);
+                }               
+            }
+            if (e.Key == Key.Left)
+            {
+                checkCollision(block, bobross);
+                if (!isColliding)
+                {
+                    bobross.Children.Clear();
+                    block.X = block.X - 20;
+                    block.Draw(bobross);
+                }
+            }
+            if (e.Key == Key.Down)
+            {
+                checkCollision(block, bobross);
+                if (!isColliding)
+                {
+                    bobross.Children.Clear();
+                    block.Y = block.Y + 20;
+                    block.Draw(bobross);
+                }
+            }        
+        }
+        private void checkCollision(Block block, Canvas canvas)
+        {
+            if (block.Y >= canvas.ActualHeight - 100)
+            {
+                isColliding = true;
+            }
+            
         }
     }
 }

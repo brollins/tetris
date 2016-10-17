@@ -5,26 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="700" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="700" Width="520" KeyDown="Window_KeyDown">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="220"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- The stack panels could be anything or they can contain other things to help with the layout-->
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="Black">
-        </StackPanel>
-
-        <Canvas Name="bobross" Height="auto" Width="auto" Background="peru" Grid.Row="1" Grid.Column="0" />
-
-        <StackPanel Grid.Column="1" Grid.Row="1" Background="MediumAquamarine">
-        </StackPanel>
-
-
+        <Canvas Name="bobross" Height="700" Width="520" Background="Black" Grid.Row="1" Grid.Column="0" />
+        <Border BorderBrush="#FF70BBDE" BorderThickness="2" HorizontalAlignment="Center" Height="679" VerticalAlignment="Center" Width="500" Margin="7,12,5,-22"/>
     </Grid>
 </Window>

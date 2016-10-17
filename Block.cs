@@ -14,9 +14,8 @@ namespace WpfApplication2
         private double x;
         private double y;
         private Color color;
-        private Rectangle rect;
 
-        public Block(): this(0,0, Colors.PowderBlue)
+        public Block() : this(0, 0, Colors.PowderBlue)
         {
 
         }
@@ -26,7 +25,7 @@ namespace WpfApplication2
             this.x = x;
             this.y = y;
             this.color = color;
-                       
+
         }
 
         public double X
@@ -38,7 +37,7 @@ namespace WpfApplication2
 
             set
             {
-                if(value>0)
+                if (value > 0 && value < 500)
                 {
                     x = value;
                 }
@@ -54,7 +53,9 @@ namespace WpfApplication2
 
             set
             {
-                y = value;
+                {
+                    y = value;
+                 }
             }
         }
 
@@ -69,7 +70,6 @@ namespace WpfApplication2
             rect.StrokeThickness = 2;
             rect.Fill = new SolidColorBrush(color);
             canvas.Children.Add(rect);
-            
         }
     }
-    }
+}

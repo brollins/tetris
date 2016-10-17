@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace WpfApplication2
 {
-    class Tetromino
+    class board
     {
+        public board()
+        {}
+
 
     }
 }
