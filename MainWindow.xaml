@@ -5,9 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="520" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="760" Width="410" KeyDown="Window_KeyDown">
     <Grid>
-        <Canvas Name="bobross" Height="700" Width="520" Background="Black" Grid.Row="1" Grid.Column="0" />
-        <Border BorderBrush="#FF70BBDE" BorderThickness="2" HorizontalAlignment="Center" Height="679" VerticalAlignment="Center" Width="500" Margin="7,12,5,-22"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="760" />
+        </Grid.RowDefinitions>
+        <Canvas Name="bobross">
+            <Canvas.Background>
+                <DrawingBrush TileMode="Tile" Viewport="0, 0, 40, 40"
+                                          ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0, 0, 50, 50"/>
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Gray" Thickness="1"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Canvas.Background>
+        </Canvas>
     </Grid>
 </Window>

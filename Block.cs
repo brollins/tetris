@@ -37,7 +37,7 @@ namespace WpfApplication2
 
             set
             {
-                if (value > 0 && value < 500)
+                if (value > 0 && value < 410)
                 {
                     x = value;
                 }
@@ -64,10 +64,10 @@ namespace WpfApplication2
             Rectangle rect = new Rectangle();
             Canvas.SetTop(rect, y);
             Canvas.SetLeft(rect, x);
-            rect.Height = 50;
-            rect.Width = 50;
+            rect.Height = 40;
+            rect.Width = 40;
             rect.Stroke = Brushes.PowderBlue;
-            rect.StrokeThickness = 2;
+            rect.StrokeThickness = 1;
             rect.Fill = new SolidColorBrush(color);
             canvas.Children.Add(rect);
         }

@@ -45,13 +45,12 @@ namespace WpfApplication2
             {
                 Debug.WriteLine(isColliding);
                 bobross.Children.Clear();
-                block.Y = block.Y + 20;
+                block.Y = block.Y + 40;
                 block.Draw(bobross);
             }      
             if(isColliding)
             {
                 bobross.Children.Clear();
-                ;
             }
             
         }
@@ -65,7 +64,7 @@ namespace WpfApplication2
                 if (!isColliding)
                 {
                     bobross.Children.Clear();
-                    block.X = block.X + 20;
+                    block.X = block.X + 40;
                     block.Draw(bobross);
                 }               
             }
@@ -75,7 +74,7 @@ namespace WpfApplication2
                 if (!isColliding)
                 {
                     bobross.Children.Clear();
-                    block.X = block.X - 20;
+                    block.X = block.X - 40;
                     block.Draw(bobross);
                 }
             }
@@ -85,14 +84,14 @@ namespace WpfApplication2
                 if (!isColliding)
                 {
                     bobross.Children.Clear();
-                    block.Y = block.Y + 20;
+                    block.Y = block.Y + 40;
                     block.Draw(bobross);
                 }
             }        
         }
         private void checkCollision(Block block, Canvas canvas)
         {
-            if (block.Y >= canvas.ActualHeight - 100)
+            if (block.Y >= canvas.ActualHeight - 50)
             {
                 isColliding = true;
             }
