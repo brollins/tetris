@@ -56,7 +56,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="board.cs" />
-    <Compile Include="Tetromino\Iblock.cs" />
+    <Compile Include="ITetromino.cs" />
+    <Compile Include="tetromino.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

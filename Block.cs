@@ -7,24 +7,22 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace WpfApplication2
+namespace Tetris
 {
-    class Block
+    public class TetrisBlock
     {
         private double x;
         private double y;
         private Color color;
-
-        public Block() : this(0, 0, Colors.PowderBlue)
-        {
-
-        }
-
-        public Block(double x, double y, Color color)
+        private Canvas canvas;
+        private Rectangle blockGraphic;
+        
+        public TetrisBlock(double x, double y, Color color, Canvas canvas)
         {
             this.x = x;
             this.y = y;
-            this.color = color;
+            this.Color = color;
+            this.canvas = canvas;
 
         }
 
@@ -55,21 +53,83 @@ namespace WpfApplication2
             {
                 {
                     y = value;
-                 }
+                }
             }
         }
 
-        public void Draw(Canvas canvas)
+        public void Drop()
         {
-            Rectangle rect = new Rectangle();
-            Canvas.SetTop(rect, y);
-            Canvas.SetLeft(rect, x);
-            rect.Height = 40;
-            rect.Width = 40;
-            rect.Stroke = Brushes.PowderBlue;
-            rect.StrokeThickness = 1;
-            rect.Fill = new SolidColorBrush(color);
-            canvas.Children.Add(rect);
+            y = y + 40;
+            Draw();
+        }
+
+        public void MoveLeft()
+        {
+            x = x - 40;
+            Draw();
+
+        }
+
+        public void MoveRight()
+        {
+            x = x + 40;
+            Draw();
+
+        }
+
+        public void MoveDown()
+        {
+            Drop();
+            Draw();
+
+        }
+
+        public Rectangle BlockGraphic
+        {
+            get
+            {
+                return blockGraphic;
+            }
+            set
+            {
+                blockGraphic = value;
+            }
+
+        }
+
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+
+            set
+            {
+                color = value;
+            }
+        }
+
+        public void Draw()
+        {
+            if (BlockGraphic == null)
+            {
+                Rectangle rect = new Rectangle();
+                Canvas.SetTop(rect, y);
+                Canvas.SetLeft(rect, x);
+                rect.Height = 40;
+                rect.Width = 40;
+                rect.Stroke = Brushes.PowderBlue;
+                rect.StrokeThickness = 1;
+                rect.Fill = new SolidColorBrush(Color);
+                canvas.Children.Add(rect);
+                BlockGraphic = rect;
+            }
+            else
+            {
+                Canvas.SetTop(BlockGraphic, y);
+                Canvas.SetLeft(BlockGraphic, X);
+            }
         }
     }
 }

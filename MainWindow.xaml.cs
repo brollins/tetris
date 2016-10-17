@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Tetris;
 
 namespace WpfApplication2
 {
@@ -22,14 +23,15 @@ namespace WpfApplication2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Block block;
         private bool isColliding;
+        private ITetromino tetromino;
+
 
         public MainWindow()
         {
             InitializeComponent();
-            block = new Block(200, 1, Color.FromArgb(255, 245, 25, 235));            
-            block.Draw(bobross);
+            tetromino = new ITetromino(canvas);
+            tetromino.Draw();
             isColliding = false;
 
             DispatcherTimer timer = new DispatcherTimer();
@@ -40,19 +42,7 @@ namespace WpfApplication2
 
         void timer_Tick(object sender, EventArgs e)
         {
-            checkCollision(block, bobross);
-            if (!isColliding)
-            {
-                Debug.WriteLine(isColliding);
-                bobross.Children.Clear();
-                block.Y = block.Y + 40;
-                block.Draw(bobross);
-            }      
-            if(isColliding)
-            {
-                bobross.Children.Clear();
-            }
-            
+            tetromino.Drop();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -60,42 +50,19 @@ namespace WpfApplication2
 
             if (e.Key == Key.Right)
             {
-                checkCollision(block, bobross);
-                if (!isColliding)
-                {
-                    bobross.Children.Clear();
-                    block.X = block.X + 40;
-                    block.Draw(bobross);
-                }               
+                tetromino.MoveRight();
             }
+
             if (e.Key == Key.Left)
             {
-                checkCollision(block, bobross);
-                if (!isColliding)
-                {
-                    bobross.Children.Clear();
-                    block.X = block.X - 40;
-                    block.Draw(bobross);
-                }
+                tetromino.MoveLeft();
             }
+
             if (e.Key == Key.Down)
             {
-                checkCollision(block, bobross);
-                if (!isColliding)
-                {
-                    bobross.Children.Clear();
-                    block.Y = block.Y + 40;
-                    block.Draw(bobross);
-                }
-            }        
-        }
-        private void checkCollision(Block block, Canvas canvas)
-        {
-            if (block.Y >= canvas.ActualHeight - 50)
-            {
-                isColliding = true;
+                tetromino.MoveDown();
             }
-            
         }
     }
 }
+
