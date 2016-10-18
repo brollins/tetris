@@ -14,14 +14,12 @@ namespace Tetris
             this.Blocks.Add(new TetrisBlock(250, 50, this.Color, canvas));
         }
 
-        public override void RotateLeft()
-        {
-            throw new NotImplementedException();
+        public override void RotateCounterClockwise()
+        {            
         }
 
-        public override void RotateRight()
+        public override void RotateClockwise()
         {
-            throw new NotImplementedException();
         }
     }
 }

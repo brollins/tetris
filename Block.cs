@@ -117,9 +117,9 @@ namespace Tetris
                 Rectangle rect = new Rectangle();
                 Canvas.SetTop(rect, y);
                 Canvas.SetLeft(rect, x);
-                rect.Height = 40;
-                rect.Width = 40;
-                rect.Stroke = Brushes.PowderBlue;
+                rect.Height = 48;
+                rect.Width = 48;
+                rect.Stroke = Brushes.White;
                 rect.StrokeThickness = 1;
                 rect.Fill = new SolidColorBrush(Color);
                 canvas.Children.Add(rect);

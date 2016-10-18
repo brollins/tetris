@@ -13,7 +13,7 @@ namespace WpfApplication2
         public MainWindow()
         {
             InitializeComponent();
-            tetromino = new ITetromino(canvas);
+            tetromino = new TTetromino(canvas);
             tetromino.Draw();
 
             DispatcherTimer timer = new DispatcherTimer();
@@ -47,12 +47,12 @@ namespace WpfApplication2
 
             if (e.Key == Key.A)
             {
-                tetromino.RotateLeft();
+                tetromino.RotateCounterClockwise();
             }
 
             if (e.Key == Key.D)
             {
-                tetromino.RotateRight();
+                tetromino.RotateClockwise();
             }
         }
     }

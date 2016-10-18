@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="board.cs" />
     <Compile Include="ITetromino.cs" />
     <Compile Include="JTetromino.cs" />
     <Compile Include="LTetromino.cs" />

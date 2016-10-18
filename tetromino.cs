@@ -123,8 +123,8 @@ namespace Tetris
             return atBottom;
         }
 
-        public abstract void RotateLeft();
-        public abstract void RotateRight();
+        public abstract void RotateCounterClockwise();
+        public abstract void RotateClockwise();
        
 
     }
