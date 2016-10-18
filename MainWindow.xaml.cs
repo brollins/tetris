@@ -13,7 +13,7 @@ namespace WpfApplication2
         public MainWindow()
         {
             InitializeComponent();
-            tetromino = new TTetromino(canvas);
+            tetromino = new ZTetromino(canvas);
             tetromino.Draw();
 
             DispatcherTimer timer = new DispatcherTimer();
