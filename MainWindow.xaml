@@ -5,32 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="760" Width="410" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="800" Width="430" KeyDown="Window_KeyDown">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="760" />
-        </Grid.RowDefinitions>
-        <Canvas Name="canvas">
-            <Canvas.Background>
-                
-                <DrawingBrush TileMode="Tile" Viewport="0, 0, 40, 40"
-                                          ViewportUnits="Absolute">
-                    <DrawingBrush.Drawing>
-                        <GeometryDrawing>
-                            <GeometryDrawing.Geometry>
-                                <RectangleGeometry Rect="0, 0, 50, 50"/>
-                            </GeometryDrawing.Geometry>
-                            <GeometryDrawing.Pen>
-                                <Pen Brush="Gray" Thickness="1"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                    </DrawingBrush.Drawing>
-                </DrawingBrush>
-            </Canvas.Background>
+        
+        <Canvas Name="canvas" Height="760" Width="410" Background="Black">
+            
         </Canvas>
     </Grid>
 </Window>

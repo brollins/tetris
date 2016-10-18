@@ -10,10 +10,11 @@ using System.Windows.Shapes;
 
 namespace Tetris
 {
-    public class Tetromino
+    public abstract class Tetromino
     {
         private Collection<TetrisBlock> blocks;
         private Canvas canvas;
+        private Color color;
 
         public Tetromino()
         {
@@ -38,8 +39,27 @@ namespace Tetris
                 blocks = value;
             }
         }
+
+        public Color Color
+        {
+            get
+            {
+                if (color == new Color())
+                {
+                    Random random = new Random();
+                    color = Color.FromRgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+                }
+                return color;
+            }
+
+            set
+            {
+                color = value;
+            }
+        }
+
         public void Drop()
-        {            
+        {
             if (!isAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
@@ -81,6 +101,7 @@ namespace Tetris
                 }
             }
         }
+
         public void Draw()
         {
             foreach (var tetrisBlock in Blocks)
@@ -88,7 +109,8 @@ namespace Tetris
                 tetrisBlock.Draw();
             }
         }
-        private bool isAtBottom ()
+
+        private bool isAtBottom()
         {
             bool atBottom = false;
             foreach (var tetrisblock in Blocks)
@@ -100,5 +122,10 @@ namespace Tetris
             }
             return atBottom;
         }
+
+        public abstract void RotateLeft();
+        public abstract void RotateRight();
+       
+
     }
 }

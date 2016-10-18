@@ -57,7 +57,13 @@
     </ApplicationDefinition>
     <Compile Include="board.cs" />
     <Compile Include="ITetromino.cs" />
+    <Compile Include="JTetromino.cs" />
+    <Compile Include="LTetromino.cs" />
+    <Compile Include="OTetromino.cs" />
+    <Compile Include="STetromino.cs" />
     <Compile Include="tetromino.cs" />
+    <Compile Include="TTetromino.cs" />
+    <Compile Include="ZTetromino.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
