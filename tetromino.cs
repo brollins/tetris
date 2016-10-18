@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Tetris
 {
@@ -14,7 +9,7 @@ namespace Tetris
     {
         private Collection<TetrisBlock> blocks;
         private Canvas canvas;
-        private Color color;        
+        private Color color;
 
         public Tetromino()
         {
@@ -25,6 +20,7 @@ namespace Tetris
         {
             Blocks = new Collection<TetrisBlock>();
             this.canvas = canvas;
+
         }
 
         public Collection<TetrisBlock> Blocks
@@ -115,7 +111,7 @@ namespace Tetris
             bool atBottom = false;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.Y >= canvas.ActualHeight - 50)
+                if (tetrisblock.Y >= 950)
                 {
                     atBottom = true;
                 }
@@ -125,7 +121,5 @@ namespace Tetris
 
         public abstract void RotateCounterClockwise();
         public abstract void RotateClockwise();
-       
-
     }
 }

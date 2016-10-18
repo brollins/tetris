@@ -13,7 +13,8 @@ namespace WpfApplication2
         public MainWindow()
         {
             InitializeComponent();
-            tetromino = new ZTetromino(canvas);
+
+            tetromino = RandomTetromino();
             tetromino.Draw();
 
             DispatcherTimer timer = new DispatcherTimer();
@@ -55,6 +56,52 @@ namespace WpfApplication2
                 tetromino.RotateClockwise();
             }
         }
+
+        private int RandomNumber ()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 8);
+            return randomNumber;
+        }
+
+        public Tetromino RandomTetromino()
+        {
+            int randomNumber = RandomNumber();
+
+            if (randomNumber == 1)
+            {
+                return new ITetromino(canvas);
+            }
+            if (randomNumber == 2)
+            {
+                return new JTetromino(canvas);
+            }
+            if (randomNumber == 3)
+            {
+                return new OTetromino(canvas);
+            }
+            if (randomNumber == 4)
+            {
+                return new ZTetromino(canvas);
+            }
+            if (randomNumber == 5)
+            {
+                return new STetromino(canvas);
+            }
+            if (randomNumber == 6)
+            {
+                return new LTetromino(canvas);
+            }
+            if (randomNumber == 7)
+            {
+                return new TTetromino(canvas);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
 

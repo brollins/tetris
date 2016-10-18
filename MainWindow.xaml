@@ -5,11 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="430" KeyDown="Window_KeyDown">
-    <Grid>
-        
-        <Canvas Name="canvas" Height="760" Width="410" Background="Black">
-            
+        Title="MainWindow" Height="1050" Width="550" KeyDown="Window_KeyDown">
+        <Canvas Name="canvas" Height="1000" Width="500" Background="Black">
+
         </Canvas>
-    </Grid>
+       
 </Window>

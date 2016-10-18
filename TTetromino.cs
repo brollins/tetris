@@ -13,9 +13,9 @@ namespace Tetris
 
         public TTetromino(Canvas canvas) : base(canvas)
         {
-            this.Blocks.Add(new TetrisBlock(150, 1, this.Color, canvas));
-            this.Blocks.Add(new TetrisBlock(200, 1, this.Color, canvas));
-            this.Blocks.Add(new TetrisBlock(250, 1, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(150, 0, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(200, 0, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(250, 0, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(200, 50, this.Color, canvas));
         }
 

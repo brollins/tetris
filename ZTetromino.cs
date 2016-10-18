@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Controls;
 
 namespace Tetris
 {
@@ -14,8 +12,8 @@ namespace Tetris
 
         public ZTetromino(Canvas canvas): base(canvas)
         {
-            this.Blocks.Add(new TetrisBlock(150, 1, this.Color, canvas));
-            this.Blocks.Add(new TetrisBlock(200, 1, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(150, 0, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(200, 0, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(200, 50, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(250, 50, this.Color, canvas));
         }

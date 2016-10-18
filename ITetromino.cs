@@ -12,7 +12,7 @@ namespace Tetris
 
         public ITetromino(Canvas canvas) : base(canvas)
         {
-            this.Blocks.Add(new TetrisBlock(200, 1, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(200, 0, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(200, 50, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(200, 100, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(200, 150, this.Color, canvas));
