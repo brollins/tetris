@@ -59,20 +59,20 @@ namespace Tetris
 
         public void Drop()
         {
-            y = y + 40;
+            y = y + 50;
             Draw();
         }
 
         public void MoveLeft()
         {
-            x = x - 40;
+            x = x - 50;
             Draw();
 
         }
 
         public void MoveRight()
         {
-            x = x + 40;
+            x = x + 50;
             Draw();
 
         }

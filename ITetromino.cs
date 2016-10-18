@@ -8,6 +8,7 @@ namespace Tetris
         private bool isUpright = true;
         private bool isRight = false;
         private bool isLeft = false;
+        private bool isDown = false;
 
         public ITetromino(Canvas canvas) : base(canvas)
         {
@@ -19,59 +20,116 @@ namespace Tetris
 
         public override void RotateLeft()
         {
-            if (isUpright && !isLeft && !isRight)
+            if (isUpright)
+            #region
             {
-                Blocks[0].X = Blocks[0].X - 100;
-                Blocks[0].Y = Blocks[0].Y + 100;
-                Blocks[1].X = Blocks[1].X - 50;
-                Blocks[1].Y = Blocks[1].Y + 50;
-                Blocks[3].X = Blocks[3].X + 50;
-                Blocks[3].Y = Blocks[3].Y - 50;
+                Blocks[0].X -= 100;
+                Blocks[0].Y += 100;
+                Blocks[1].X -= 50;
+                Blocks[1].Y += 50;
+                Blocks[3].X += 50;
+                Blocks[3].Y -= 50;
                 Draw();
                 isUpright = false;
                 isLeft = true;
-            } 
-            
-            if (!isUpright && !isLeft && !isRight)
-            {
-                Blocks[0].X = Blocks[0].X + 100;
-                Blocks[0].Y = Blocks[0].Y - 100;
-                Blocks[1].X = Blocks[1].X + 50;
-                Blocks[1].Y = Blocks[1].Y - 50;
-                Blocks[3].X = Blocks[3].X - 50;
-                Blocks[3].Y = Blocks[3].Y + 50;
-                Draw();
-                isUpright = true;
+            }
 
-            }          
+            else if (isLeft)
+            {
+                Blocks[0].X += 100;
+                Blocks[0].Y += 100;
+                Blocks[1].X += 50;
+                Blocks[1].Y += 50;
+                Blocks[3].X -= 50;
+                Blocks[3].Y -= 50;
+                Draw();
+                isLeft = false;
+                isDown = true;
+            }
+
+            else if (isDown)
+            {
+                Blocks[0].X += 100;
+                Blocks[0].Y -= 100;
+                Blocks[1].X += 50;
+                Blocks[1].Y -= 50;
+                Blocks[3].X -= 50;
+                Blocks[3].Y += 50;
+                Draw();
+                isDown = false;
+                isRight = true;
+            }
+
+            else if (isRight)
+            {
+                Blocks[0].X -= 100;
+                Blocks[0].Y -= 100;
+                Blocks[1].X -= 50;
+                Blocks[1].Y -= 50;
+                Blocks[3].X += 50;
+                Blocks[3].Y += 50;
+                Draw();
+                isRight = false;
+                isUpright = true;
+            }
+            #endregion
         }
 
         public override void RotateRight()
         {
-            if (isUpright && !isLeft && !isRight)
+            if (isUpright)
+            #region
             {
-                Blocks[0].X = Blocks[0].X + 100;
-                Blocks[0].Y = Blocks[0].Y + 100;
-                Blocks[1].X = Blocks[1].X + 50;
-                Blocks[1].Y = Blocks[1].Y + 50;
-                Blocks[3].X = Blocks[3].X - 50;
-                Blocks[3].Y = Blocks[3].Y - 50;
+                Blocks[0].X += 100;
+                Blocks[0].Y += 100;
+                Blocks[1].X += 50;
+                Blocks[1].Y += 50;
+                Blocks[3].X -= 50;
+                Blocks[3].Y -= 50;
                 Draw();
                 isUpright = false;
                 isRight = true;
             }
 
-            if (!isUpright && !isLeft && !isRight)
+            else if (isLeft)
             {
-                Blocks[0].X = Blocks[0].X - 100;
-                Blocks[0].Y = Blocks[0].Y - 100;
-                Blocks[1].X = Blocks[1].X - 50;
-                Blocks[1].Y = Blocks[1].Y - 50;
-                Blocks[3].X = Blocks[3].X + 50;
-                Blocks[3].Y = Blocks[3].Y + 50;
+                Blocks[0].X += 100;
+                Blocks[0].Y -= 100;
+                Blocks[1].X += 50;
+                Blocks[1].Y -= 50;
+                Blocks[3].X -= 50;
+                Blocks[3].Y += 50;
                 Draw();
+                isLeft = false;
                 isUpright = true;
             }
-        }  
+
+            else if (isDown)
+            {
+                Blocks[0].X -= 100;
+                Blocks[0].Y -= 100;
+                Blocks[1].X -= 50;
+                Blocks[1].Y -= 50;
+                Blocks[3].X += 50;
+                Blocks[3].Y += 50;
+                Draw();
+                isDown = false;
+                isLeft = true;
+            }
+
+            else if (isRight)
+            {
+                Blocks[0].X -= 100;
+                Blocks[0].Y += 100;
+                Blocks[1].X -= 50;
+                Blocks[1].Y += 50;
+                Blocks[3].X += 50;
+                Blocks[3].Y -= 50;
+                Draw();
+                isRight = false;
+                isDown = true;
+            }
+            #endregion
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Tetris
     {
         private Collection<TetrisBlock> blocks;
         private Canvas canvas;
-        private Color color;
+        private Color color;        
 
         public Tetromino()
         {
