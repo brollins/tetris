@@ -11,14 +11,13 @@ namespace Tetris
         private Color color;
         private Canvas canvas;
         private Rectangle blockGraphic;
-        
+
         public TetrisBlock(double x, double y, Color color, Canvas canvas)
         {
             this.x = x;
             this.y = y;
             this.Color = color;
             this.canvas = canvas;
-
         }
 
         public double X
@@ -30,10 +29,7 @@ namespace Tetris
 
             set
             {
-                if (value > 0 && value < 410)
-                {
-                    x = value;
-                }
+                x = value;
             }
         }
 
@@ -46,9 +42,7 @@ namespace Tetris
 
             set
             {
-                {
-                    y = value;
-                }
+                y = value;
             }
         }
 
@@ -62,21 +56,18 @@ namespace Tetris
         {
             x = x - 50;
             Draw();
-
         }
 
         public void MoveRight()
         {
             x = x + 50;
             Draw();
-
         }
 
         public void MoveDown()
         {
             Drop();
             Draw();
-
         }
 
         public Rectangle BlockGraphic
@@ -89,7 +80,6 @@ namespace Tetris
             {
                 blockGraphic = value;
             }
-
         }
 
         public Color Color

@@ -14,11 +14,11 @@ namespace Tetris
             this.Blocks.Add(new TetrisBlock(250, 50, this.Color, canvas));
         }
 
-        public override void RotateCounterClockwise()
+        protected override void RotateCounterClockwiseCore()
         {            
         }
 
-        public override void RotateClockwise()
+        protected override void RotateClockwiseCore()
         {
         }
     }

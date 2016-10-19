@@ -19,7 +19,7 @@ namespace Tetris
             this.Blocks.Add(new TetrisBlock(150, 100, this.Color, canvas));
         }
 
-        public override void RotateCounterClockwise()
+        protected override void RotateCounterClockwiseCore()
         {
             if (isUpright)
             #region
@@ -76,7 +76,7 @@ namespace Tetris
             #endregion
         }
 
-        public override void RotateClockwise()
+        protected override void RotateClockwiseCore()
         {
             if (isUpright)
             #region
@@ -85,8 +85,8 @@ namespace Tetris
                 Blocks[0].Y += 100;
                 Blocks[1].X += 50;
                 Blocks[1].Y += 50;
-                Blocks[3].X -= 50;
-                Blocks[3].Y += 50;
+                Blocks[3].X += 50;
+                Blocks[3].Y -= 50;
                 Draw();
                 isUpright = false;
                 isRight = true;

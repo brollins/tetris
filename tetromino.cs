@@ -106,7 +106,7 @@ namespace Tetris
             }
         }
 
-        private bool isAtBottom()
+        public bool isAtBottom()
         {
             bool atBottom = false;
             foreach (var tetrisblock in Blocks)
@@ -119,7 +119,30 @@ namespace Tetris
             return atBottom;
         }
 
-        public abstract void RotateCounterClockwise();
-        public abstract void RotateClockwise();
+        protected virtual void RotateCounterClockwiseCore()
+        {
+
+        }
+
+        protected virtual void RotateClockwiseCore()
+        {
+
+        }
+
+        public void RotateCounterClockwise()
+        {
+            if (!isAtBottom())
+            {
+                RotateCounterClockwiseCore();
+            }
+        }
+
+        public void RotateClockwise()
+        {
+            if (!isAtBottom())
+            {
+                RotateClockwiseCore();
+            }
+        }
     }
 }

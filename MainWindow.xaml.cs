@@ -12,11 +12,7 @@ namespace WpfApplication2
 
         public MainWindow()
         {
-            InitializeComponent();
-
-            tetromino = RandomTetromino();
-            tetromino.Draw();
-
+            InitializeComponent();         
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += timer_Tick;
@@ -25,7 +21,23 @@ namespace WpfApplication2
 
         void timer_Tick(object sender, EventArgs e)
         {
-            tetromino.Drop();
+            if (tetromino == null)
+            {
+                tetromino = RandomTetromino();
+                tetromino.Draw();
+            }
+            else
+            {
+                if (tetromino.isAtBottom())
+                {
+                    tetromino = RandomTetromino();
+                    tetromino.Draw();
+                }
+                else
+                {
+                    tetromino.Drop();
+                }
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -60,7 +72,7 @@ namespace WpfApplication2
         private int RandomNumber ()
         {
             Random random = new Random();
-            int randomNumber = random.Next(0, 8);
+            int randomNumber = random.Next(1, 7);
             return randomNumber;
         }
 
