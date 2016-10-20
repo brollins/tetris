@@ -10,16 +10,17 @@ namespace Tetris
         private Collection<TetrisBlock> blocks;
         private Canvas canvas;
         private Color color;
+        public bool atBottom = false;
+
 
         public Tetromino()
         {
-
         }
 
-        public Tetromino(Canvas canvas)
+        public Tetromino(Canvas board)
         {
             Blocks = new Collection<TetrisBlock>();
-            this.canvas = canvas;
+            this.canvas = board;
 
         }
 
@@ -56,7 +57,7 @@ namespace Tetris
 
         public void Drop()
         {
-            if (!isAtBottom())
+            if (!IsAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -67,7 +68,7 @@ namespace Tetris
 
         public void MoveLeft()
         {
-            if (!isAtBottom())
+            if (!IsAtBottom() && CanMoveLeft())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -78,7 +79,7 @@ namespace Tetris
 
         public void MoveRight()
         {
-            if (!isAtBottom())
+            if (!IsAtBottom() && CanMoveRight())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -89,7 +90,7 @@ namespace Tetris
 
         public void MoveDown()
         {
-            if (!isAtBottom())
+            if (!IsAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -106,17 +107,42 @@ namespace Tetris
             }
         }
 
-        public bool isAtBottom()
+        public bool IsAtBottom()
         {
-            bool atBottom = false;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.Y >= 950)
+                if (tetrisblock.Y >= 951)
                 {
                     atBottom = true;
                 }
             }
             return atBottom;
+        }
+
+        public bool CanMoveLeft()
+        {
+            bool canMoveLeft = true;
+            foreach (var tetrisblock in blocks)
+            {
+                if (tetrisblock.X == 0)
+                {
+                    canMoveLeft = false;
+                }
+            }
+            return canMoveLeft;
+        }
+
+        public bool CanMoveRight()
+        {
+            bool canMoveRight = true;
+            foreach (var tetrisblock in blocks)
+            {
+                if (tetrisblock.X >= 450)
+                {
+                    canMoveRight = false;
+                }
+            }
+            return canMoveRight;
         }
 
         protected virtual void RotateCounterClockwiseCore()
@@ -131,7 +157,7 @@ namespace Tetris
 
         public void RotateCounterClockwise()
         {
-            if (!isAtBottom())
+            if (!IsAtBottom())
             {
                 RotateCounterClockwiseCore();
             }
@@ -139,7 +165,7 @@ namespace Tetris
 
         public void RotateClockwise()
         {
-            if (!isAtBottom())
+            if (!IsAtBottom())
             {
                 RotateClockwiseCore();
             }

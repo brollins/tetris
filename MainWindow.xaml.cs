@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 using Tetris;
 
 namespace WpfApplication2
@@ -9,12 +10,17 @@ namespace WpfApplication2
     public partial class MainWindow : Window
     {
         private Tetromino tetromino;
+        private Collection<Tetromino> tetrominosOnScreen;
+
 
         public MainWindow()
         {
-            InitializeComponent();         
+            InitializeComponent();
+            tetrominosOnScreen = new Collection<Tetromino>();
+            tetromino = RandomTetromino();
+            tetromino.Draw();
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Interval = TimeSpan.FromSeconds(.5);
             timer.Tick += timer_Tick;
             timer.Start();
         }
@@ -28,16 +34,40 @@ namespace WpfApplication2
             }
             else
             {
-                if (tetromino.isAtBottom())
+                if (tetromino.IsAtBottom())
                 {
+                    tetrominosOnScreen.Add(tetromino);
                     tetromino = RandomTetromino();
                     tetromino.Draw();
                 }
                 else
                 {
-                    tetromino.Drop();
+                    if (!IsColliding())
+                    {
+                        tetromino.Drop();
+                    }
                 }
             }
+        }
+
+        public bool IsColliding()
+        {
+            bool isColliding = false;            
+            foreach (var tetrominoOnScreen in tetrominosOnScreen)
+            {
+                foreach (var blockOnScreen in tetrominoOnScreen.Blocks)
+                {
+                    foreach (var block in tetromino.Blocks)
+                    {
+                        if (block.Y + 50 == blockOnScreen.Y && block.X == blockOnScreen.X)
+                        {
+                            isColliding = true;
+                            tetromino.atBottom = true;
+                        }                        
+                    }
+                }
+            }
+            return isColliding;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -45,31 +75,46 @@ namespace WpfApplication2
 
             if (e.Key == Key.Right)
             {
-                tetromino.MoveRight();
+                if (!IsColliding())
+                {
+                    tetromino.MoveRight();
+                }
             }
 
             if (e.Key == Key.Left)
             {
-                tetromino.MoveLeft();
+                if (!IsColliding())
+                {
+                    tetromino.MoveLeft();
+                }
             }
 
             if (e.Key == Key.Down)
             {
-                tetromino.MoveDown();
+                if (!IsColliding())
+                {
+                    tetromino.MoveDown();
+                }
             }
 
             if (e.Key == Key.A)
             {
-                tetromino.RotateCounterClockwise();
+                if (!IsColliding())
+                {
+                    tetromino.RotateCounterClockwise();
+                }
             }
 
             if (e.Key == Key.D)
             {
-                tetromino.RotateClockwise();
+                if (!IsColliding())
+                {
+                    tetromino.RotateClockwise();
+                }
             }
         }
 
-        private int RandomNumber ()
+        private int RandomNumber()
         {
             Random random = new Random();
             int randomNumber = random.Next(1, 7);
@@ -82,38 +127,49 @@ namespace WpfApplication2
 
             if (randomNumber == 1)
             {
-                return new ITetromino(canvas);
+                return new ITetromino(board);
             }
             if (randomNumber == 2)
             {
-                return new JTetromino(canvas);
+                return new JTetromino(board);
             }
             if (randomNumber == 3)
             {
-                return new OTetromino(canvas);
+                return new OTetromino(board);
             }
             if (randomNumber == 4)
             {
-                return new ZTetromino(canvas);
+                return new ZTetromino(board);
             }
             if (randomNumber == 5)
             {
-                return new STetromino(canvas);
+                return new STetromino(board);
             }
             if (randomNumber == 6)
             {
-                return new LTetromino(canvas);
+                return new LTetromino(board);
             }
             if (randomNumber == 7)
             {
-                return new TTetromino(canvas);
+                return new TTetromino(board);
             }
             else
             {
                 return null;
             }
         }
-
-    }
+        private bool ClearLines()
+        {            
+            bool isFull = false;
+            foreach (var tetrominoOnScreen in tetrominosOnScreen)
+            {
+                foreach (var blockOnScreen in tetrominoOnScreen.Blocks)
+                {
+                    Console.WriteLine(blockOnScreen.X);
+                }
+            }
+            return isFull;
+        }
+    }    
 }
 

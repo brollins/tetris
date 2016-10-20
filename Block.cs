@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -9,15 +10,15 @@ namespace Tetris
         private double x;
         private double y;
         private Color color;
-        private Canvas canvas;
+        private Canvas board;
         private Rectangle blockGraphic;
 
-        public TetrisBlock(double x, double y, Color color, Canvas canvas)
+        public TetrisBlock(double x, double y, Color color, Canvas board)
         {
             this.x = x;
             this.y = y;
             this.Color = color;
-            this.canvas = canvas;
+            this.board = board;
         }
 
         public double X
@@ -101,20 +102,21 @@ namespace Tetris
             {
                 Rectangle rect = new Rectangle();
                 Canvas.SetTop(rect, y);
-                Canvas.SetLeft(rect, x);
+                Canvas.SetLeft(rect, x);                
                 rect.Height = 48;
                 rect.Width = 48;
                 rect.Stroke = Brushes.White;
                 rect.StrokeThickness = 1;
                 rect.Fill = new SolidColorBrush(Color);
-                canvas.Children.Add(rect);
+                board.Children.Add(rect);
                 BlockGraphic = rect;
             }
+
             else
             {
                 Canvas.SetTop(BlockGraphic, y);
                 Canvas.SetLeft(BlockGraphic, X);
             }
-        }
+        }        
     }
 }
