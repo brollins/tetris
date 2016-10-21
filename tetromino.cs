@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -8,20 +9,21 @@ namespace Tetris
     public abstract class Tetromino
     {
         private Collection<TetrisBlock> blocks;
-        private Canvas canvas;
+        protected Canvas canvas;
         private Color color;
-        public bool atBottom = false;
+        protected Collection<Tetromino> tetrominosOnScreen;
+        private static Random random = new Random();
 
 
         public Tetromino()
         {
         }
 
-        public Tetromino(Canvas board)
+        public Tetromino(Canvas board, Collection<Tetromino> tetrominosOnScreen)
         {
             Blocks = new Collection<TetrisBlock>();
             this.canvas = board;
-
+            this.tetrominosOnScreen = tetrominosOnScreen;
         }
 
         public Collection<TetrisBlock> Blocks
@@ -43,8 +45,8 @@ namespace Tetris
             {
                 if (color == new Color())
                 {
-                    Random random = new Random();
                     color = Color.FromRgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+                    Debug.WriteLine(color);
                 }
                 return color;
             }
@@ -55,9 +57,12 @@ namespace Tetris
             }
         }
 
+        public abstract Tetromino Clone();
+
+
         public void Drop()
         {
-            if (!IsAtBottom())
+            if (!IsAtBottom() && !IsTouching())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -68,29 +73,43 @@ namespace Tetris
 
         public void MoveLeft()
         {
-            if (!IsAtBottom() && CanMoveLeft())
+            if (!IsAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
                     tetrisBlock.MoveLeft();
+                }
+                if (!IsValidPosition())
+                {
+                    foreach (var tetrisBlock in Blocks)
+                    {
+                        tetrisBlock.MoveRight();
+                    }
                 }
             }
         }
 
         public void MoveRight()
         {
-            if (!IsAtBottom() && CanMoveRight())
+            if (!IsAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
                     tetrisBlock.MoveRight();
+                }
+                if (!IsValidPosition())
+                {
+                    foreach (var tetrisBlock in Blocks)
+                    {
+                        tetrisBlock.MoveLeft();
+                    }
                 }
             }
         }
 
         public void MoveDown()
         {
-            if (!IsAtBottom())
+            if (!IsAtBottom() && !IsTouching())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -109,9 +128,10 @@ namespace Tetris
 
         public bool IsAtBottom()
         {
+            bool atBottom = false;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.Y >= 951)
+                if (tetrisblock.Y >= 951 || IsTouching())
                 {
                     atBottom = true;
                 }
@@ -119,31 +139,52 @@ namespace Tetris
             return atBottom;
         }
 
-        public bool CanMoveLeft()
+        public bool IsValidPosition()
         {
-            bool canMoveLeft = true;
-            foreach (var tetrisblock in blocks)
+            bool isValidPosition = true;
+            foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.X == 0)
+                if (tetrisblock.X > 450)
+                    isValidPosition = false;
+
+                if (tetrisblock.X < 0)
+                    isValidPosition = false;
+
+                if (tetrisblock.Y > 950)
+                    isValidPosition = false;
+
+                foreach (var tetrominoOnScreen in tetrominosOnScreen)
                 {
-                    canMoveLeft = false;
+                    foreach (var block in tetrominoOnScreen.Blocks)
+                    {
+                        if (block.X == tetrisblock.X && block.Y == tetrisblock.Y)
+                        {
+                            isValidPosition = false;
+                        }
+                    }
                 }
             }
-            return canMoveLeft;
+            return isValidPosition;
         }
 
-        public bool CanMoveRight()
+        public bool IsTouching()
         {
-            bool canMoveRight = true;
-            foreach (var tetrisblock in blocks)
+            bool isTouching = false;
+            foreach (var tetrominoOnScreen in tetrominosOnScreen)
             {
-                if (tetrisblock.X >= 450)
+                foreach (var blockOnScreen in tetrominoOnScreen.Blocks)
                 {
-                    canMoveRight = false;
+                    foreach (var block in Blocks)
+                    {
+                        if (block.Y + 50 == blockOnScreen.Y && block.X == blockOnScreen.X)
+                        {
+                            isTouching = true;
+                        }
+                    }
                 }
             }
-            return canMoveRight;
-        }
+            return isTouching;
+        }       
 
         protected virtual void RotateCounterClockwiseCore()
         {
@@ -160,6 +201,12 @@ namespace Tetris
             if (!IsAtBottom())
             {
                 RotateCounterClockwiseCore();
+                if (!IsValidPosition())
+                {
+                    RotateClockwiseCore();
+                }
+
+                Draw();
             }
         }
 
@@ -168,6 +215,11 @@ namespace Tetris
             if (!IsAtBottom())
             {
                 RotateClockwiseCore();
+                if (!IsValidPosition())
+                {
+                    RotateCounterClockwiseCore();
+                }
+                Draw();
             }
         }
     }

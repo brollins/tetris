@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace Tetris
@@ -10,7 +11,7 @@ namespace Tetris
         private bool isLeft = false;
         private bool isDown = false;
 
-        public ITetromino(Canvas canvas) : base(canvas)
+        public ITetromino(Canvas canvas, Collection<Tetromino> tetrominosOnScreen) : base(canvas, tetrominosOnScreen)
         {
             this.Blocks.Add(new TetrisBlock(200, 0, this.Color, canvas));
             this.Blocks.Add(new TetrisBlock(200, 50, this.Color, canvas));
@@ -29,7 +30,6 @@ namespace Tetris
                 Blocks[1].Y += 50;
                 Blocks[3].X += 50;
                 Blocks[3].Y -= 50;
-                Draw();
                 isUpright = false;
                 isLeft = true;
             }
@@ -42,7 +42,6 @@ namespace Tetris
                 Blocks[1].Y += 50;
                 Blocks[3].X -= 50;
                 Blocks[3].Y -= 50;
-                Draw();
                 isLeft = false;
                 isDown = true;
             }
@@ -55,7 +54,6 @@ namespace Tetris
                 Blocks[1].Y -= 50;
                 Blocks[3].X -= 50;
                 Blocks[3].Y += 50;
-                Draw();
                 isDown = false;
                 isRight = true;
             }
@@ -68,7 +66,6 @@ namespace Tetris
                 Blocks[1].Y -= 50;
                 Blocks[3].X += 50;
                 Blocks[3].Y += 50;
-                Draw();
                 isRight = false;
                 isUpright = true;
             }
@@ -86,7 +83,6 @@ namespace Tetris
                 Blocks[1].Y += 50;
                 Blocks[3].X -= 50;
                 Blocks[3].Y -= 50;
-                Draw();
                 isUpright = false;
                 isRight = true;
             }
@@ -99,7 +95,6 @@ namespace Tetris
                 Blocks[1].Y -= 50;
                 Blocks[3].X -= 50;
                 Blocks[3].Y += 50;
-                Draw();
                 isLeft = false;
                 isUpright = true;
             }
@@ -112,7 +107,6 @@ namespace Tetris
                 Blocks[1].Y -= 50;
                 Blocks[3].X += 50;
                 Blocks[3].Y += 50;
-                Draw();
                 isDown = false;
                 isLeft = true;
             }
@@ -125,11 +119,16 @@ namespace Tetris
                 Blocks[1].Y += 50;
                 Blocks[3].X += 50;
                 Blocks[3].Y -= 50;
-                Draw();
                 isRight = false;
                 isDown = true;
             }
             #endregion
+        }
+        public override Tetromino Clone()
+        {
+            ITetromino itetromino = new ITetromino(canvas, tetrominosOnScreen);
+            itetromino.Color = this.Color;
+            return itetromino;
         }
     }
 }

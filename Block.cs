@@ -13,12 +13,14 @@ namespace Tetris
         private Canvas board;
         private Rectangle blockGraphic;
 
+
         public TetrisBlock(double x, double y, Color color, Canvas board)
         {
             this.x = x;
             this.y = y;
             this.Color = color;
             this.board = board;
+            Draw();
         }
 
         public double X
