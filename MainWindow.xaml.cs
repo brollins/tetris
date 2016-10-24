@@ -6,37 +6,58 @@ using System.Collections.ObjectModel;
 using Tetris;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.ComponentModel;
 
 namespace WpfApplication2
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Tetromino tetromino;
         private Collection<Tetromino> tetrominosOnScreen;
         private Queue<Tetromino> tetrominoQueue;
         private Tetromino nextTetromino;
         private static Random random = new Random();
+        private int score;
+        private DispatcherTimer timer = new DispatcherTimer();
 
+        public int Score
+        {
+            get
+            {
+                return score;
+            }
+
+            set
+            {
+                score = value;
+                if (PropertyChanged != null)
+                {
+                    var args = new PropertyChangedEventArgs("Score");
+                    PropertyChanged(this, args);
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
             tetrominosOnScreen = new Collection<Tetromino>();
             tetrominoQueue = new Queue<Tetromino>();
 
-            //tetromino = RandomTetromino();
-            //tetromino.Draw();
-            //tetrominoQueue.Enqueue(RandomTetromino());
+            Score = 0;
             DropNewTetromino();
 
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(.5);
+            timer.Interval = TimeSpan.FromSeconds(1.25);
             timer.Tick += timer_Tick;
             timer.Start();
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
+
             if (tetromino.IsAtBottom())
             {
                 tetrominosOnScreen.Add(tetromino);
@@ -51,6 +72,7 @@ namespace WpfApplication2
                 }
 
             }
+
         }
 
         public bool IsColliding()
@@ -65,8 +87,11 @@ namespace WpfApplication2
                         if (block.Y + 50 == blockOnScreen.Y && block.X == blockOnScreen.X)
                         {
                             isColliding = true;
-                            //tetromino.atBottom = true;
                         }
+                    }
+                    if (blockOnScreen.Y == 0)
+                    {
+                        isColliding = true;
                     }
                 }
             }
@@ -184,9 +209,10 @@ namespace WpfApplication2
                         block.X = -10000;
                         block.Y = -10000;
                         board.Children.Remove(block.BlockGraphic);
-                        //increase score by 1000
-                        //update score on textbox?
+                        Score += 1000;
+
                     }
+
                     foreach (var tetrominoOnScreen in tetrominosOnScreen)
                     {
                         foreach (var block in tetrominoOnScreen.Blocks)
@@ -204,6 +230,7 @@ namespace WpfApplication2
 
         private void DropNewTetromino()
         {
+            bool gameOver = false;
             if (tetromino == null)
             {
                 tetrominoQueue.Enqueue(RandomTetromino());
@@ -227,54 +254,52 @@ namespace WpfApplication2
                     block.X = block.X - 350;
                 }
 
-                //if (nextTetromino != null)
-                //{
-                //    foreach (var block in nextTetromino.Blocks)
-                //    {
-                //        Canvas.SetTop(block.BlockGraphic, -10000);
-                //        Canvas.SetLeft(block.BlockGraphic, -10000);
-                //        block.X = -10000;
-                //        block.Y = -10000;
-                //        board.Children.Remove(block.BlockGraphic);
-                //    }
-                //}
-
                 tetromino.Draw();
-                tetrominoQueue.Enqueue(RandomTetromino());
-                nextTetromino = tetrominoQueue.Peek();
-                foreach (var block in nextTetromino.Blocks)
+
+                foreach (var tetrominoOnScreen in tetrominosOnScreen)
                 {
-                    Canvas.SetTop(block.BlockGraphic, block.X + 350);
-                    block.X = block.X + 350;
+                    foreach (var block in tetrominoOnScreen.Blocks)
+                    {
+                        foreach (var currentblock in tetromino.Blocks)
+                        {
+                            if (block.X == currentblock.X && block.Y == currentblock.Y)
+                            {
+                                gameOver = true;
+                            }
+                        }
+                    }
                 }
-                nextTetromino.Draw();
+                if (gameOver)
+                {
+                    timer.Stop();
+                    if (MessageBox.Show(this, "Would you like to play again?", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        tetrominosOnScreen.Clear();
+                        board.Children.Clear();
+                        Score = 0;
+                        timer.Start();
+                        tetrominoQueue.Clear();
+                        tetromino = null;
+                        DropNewTetromino();
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    tetrominoQueue.Enqueue(RandomTetromino());
+                    nextTetromino = tetrominoQueue.Peek();
+                    foreach (var block in nextTetromino.Blocks)
+                    {
+                        Canvas.SetTop(block.BlockGraphic, block.X + 350);
+                        block.X = block.X + 350;
+                    }
+                    nextTetromino.Draw();
+                }
             }
-
-
         }
-
-
-
-
-        // new function to draw next tetromino
-        // peek to grab next tetromino
-        // loop through tetromino.blocks.blockGraphic  
-        // canvas settop/setleft to position it 
-        // draw tetromino
-
-        // new function to drop next tetromino
-        // handle enqueue and dequeue
-
-        // peek and clone tetromino
-        // dispose method to clear out tetromino
-        // peek tetromino.clone
-
-
-        //game end 
-        // if Y = 0 in tetrominosOnScreen, end game
-
-        //next block
-        //can't currently place tetromino outside game board without shutting off drop
     }
 }
 

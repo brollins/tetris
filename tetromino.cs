@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -46,7 +45,6 @@ namespace Tetris
                 if (color == new Color())
                 {
                     color = Color.FromRgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
-                    Debug.WriteLine(color);
                 }
                 return color;
             }
@@ -135,6 +133,7 @@ namespace Tetris
                 {
                     atBottom = true;
                 }
+                
             }
             return atBottom;
         }
