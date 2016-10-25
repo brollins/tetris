@@ -13,7 +13,6 @@ namespace Tetris
         protected Collection<Tetromino> tetrominosOnScreen;
         private static Random random = new Random();
 
-
         public Tetromino()
         {
         }
@@ -54,9 +53,6 @@ namespace Tetris
                 color = value;
             }
         }
-
-        public abstract Tetromino Clone();
-
 
         public void Drop()
         {

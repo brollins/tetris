@@ -116,13 +116,6 @@ namespace Tetris
                 isDown = true;
             }
             #endregion
-        }
-
-        public override Tetromino Clone()
-        {
-            ZTetromino ztetromino = new ZTetromino(canvas, tetrominosOnScreen);
-            ztetromino.Color = this.Color;
-            return ztetromino;
-        }
+        }        
     }
 }

@@ -22,11 +22,5 @@ namespace Tetris
         protected override void RotateClockwiseCore()
         {
         }
-        public override Tetromino Clone()
-        {
-            OTetromino otetromino = new OTetromino(canvas, tetrominosOnScreen);
-            otetromino.Color = this.Color;
-            return otetromino;
-        }
     }
 }

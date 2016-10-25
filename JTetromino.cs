@@ -125,11 +125,5 @@ namespace Tetris
             }
             #endregion
         }
-        public override Tetromino Clone()
-        {
-            JTetromino jtetromino = new JTetromino(canvas, tetrominosOnScreen);
-            jtetromino.Color = this.Color;
-            return jtetromino;
-        }
     }
 }
