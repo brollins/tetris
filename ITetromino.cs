@@ -10,13 +10,13 @@ namespace Tetris
         private bool isLeft = false;
         private bool isDown = false;
 
-        public ITetromino(Canvas canvas, Collection<Tetromino> tetrominosOnScreen) : base(canvas, tetrominosOnScreen)
+        public ITetromino(TetrisBoard tetrisBoard, Collection<Tetromino> tetrominosOnScreen) : base(tetrisBoard, tetrominosOnScreen)
         {
             this.Blocks.Add(new TetrisBlock(4, 0));
             this.Blocks.Add(new TetrisBlock(4, 1));
             this.Blocks.Add(new TetrisBlock(4, 2));
             this.Blocks.Add(new TetrisBlock(4, 3));
-        }
+        }    
 
         protected override void RotateCounterClockwiseCore()
         {

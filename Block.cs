@@ -1,12 +1,11 @@
 ﻿using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Tetris
 {
     public class TetrisBlock
     {
 
-   // convert x and y to columnn and row
+   // convert x and y to Columnn and row
    // remove anything related to pixels on moves
    // remove the drop method
    // abstract the drawing to new canvas class, have draw simply draw with color and coordinates (new scaffolding/stub class "TetrisBoard" with Draw method to allow it to compile)
@@ -17,13 +16,17 @@ namespace Tetris
         private int column;
         private int row;
 
-        public TetrisBlock(int column, int row)
+        public TetrisBlock () : this(0, 0)
         {
-            this.column = column;
-            this.row = row;
+
         }
 
-        public int column
+        public TetrisBlock(int column, int row)
+        {
+            
+        }
+        
+        public int Column
         {
             get
             {
@@ -36,7 +39,7 @@ namespace Tetris
             }
         }
 
-        public int row
+        public int Row
         {
             get
             {
@@ -64,9 +67,9 @@ namespace Tetris
             row++;
         }
 
-        public void Draw(TetrisBoard tetrisboard)
+        public void Draw(TetrisBoard tetrisBoard, Color color)
         {
-            tetrisboard.Draw()
+            tetrisBoard.Draw(column, row, color);
         }        
     }
 }

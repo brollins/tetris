@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Tetris
@@ -8,19 +7,23 @@ namespace Tetris
     public abstract class Tetromino
     {
         private Collection<TetrisBlock> blocks;
-        protected Canvas canvas;
+        protected TetrisBoard tetrisBoard;
         private Color color;
         protected Collection<Tetromino> tetrominosOnScreen;
         private static Random random = new Random();
+        private int topRow = 1;
+        private int bottomRow = 20;
+        private int leftMostColumn = 1;
+        private int rightMostColumn = 10;
 
         public Tetromino()
         {
         }
 
-        public Tetromino(Canvas board, Collection<Tetromino> tetrominosOnScreen)
+        public Tetromino(TetrisBoard tetrisBoard, Collection<Tetromino> tetrominosOnScreen)
         {
             Blocks = new Collection<TetrisBlock>();
-            this.canvas = board;
+            this.tetrisBoard = tetrisBoard;
             this.tetrominosOnScreen = tetrominosOnScreen;
         }
 
@@ -60,7 +63,7 @@ namespace Tetris
             {
                 foreach (var tetrisBlock in Blocks)
                 {
-                    tetrisBlock.Drop();
+                    tetrisBlock.MoveDown();
                 }
             }
         }
@@ -116,7 +119,7 @@ namespace Tetris
         {
             foreach (var tetrisBlock in Blocks)
             {
-                tetrisBlock.Draw();
+                tetrisBlock.Draw(tetrisBoard, Color);
             }
         }
 
@@ -125,7 +128,7 @@ namespace Tetris
             bool atBottom = false;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.Y >= 951 || IsTouching())
+                if (tetrisblock.Row > bottomRow || IsTouching())
                 {
                     atBottom = true;
                 }
@@ -139,20 +142,20 @@ namespace Tetris
             bool isValidPosition = true;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.X > 450)
+                if (tetrisblock.Column > rightMostColumn)
                     isValidPosition = false;
 
-                if (tetrisblock.X < 0)
+                if (tetrisblock.Column < leftMostColumn)
                     isValidPosition = false;
 
-                if (tetrisblock.Y > 950)
+                if (tetrisblock.Row > bottomRow)
                     isValidPosition = false;
 
                 foreach (var tetrominoOnScreen in tetrominosOnScreen)
                 {
                     foreach (var block in tetrominoOnScreen.Blocks)
                     {
-                        if (block.X == tetrisblock.X && block.Y == tetrisblock.Y)
+                        if (block.Column == tetrisblock.Column && block.Row == tetrisblock.Row)
                         {
                             isValidPosition = false;
                         }
@@ -171,7 +174,7 @@ namespace Tetris
                 {
                     foreach (var block in Blocks)
                     {
-                        if (block.Y + 50 == blockOnScreen.Y && block.X == blockOnScreen.X)
+                        if (block.Row + 1 == blockOnScreen.Row && block.Column == blockOnScreen.Column)
                         {
                             isTouching = true;
                         }

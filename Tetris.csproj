@@ -60,6 +60,7 @@
     <Compile Include="LTetromino.cs" />
     <Compile Include="OTetromino.cs" />
     <Compile Include="STetromino.cs" />
+    <Compile Include="TetrisBoard.cs" />
     <Compile Include="Tetromino.cs" />
     <Compile Include="TTetromino.cs" />
     <Compile Include="ZTetromino.cs" />
