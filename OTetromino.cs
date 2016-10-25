@@ -9,10 +9,10 @@ namespace Tetris
     {
         public OTetromino(Canvas canvas, Collection<Tetromino> tetrominosOnScreen) : base(canvas, tetrominosOnScreen)
         {
-            this.Blocks.Add(new TetrisBlock(200, 0, this.Color, canvas));
-            this.Blocks.Add(new TetrisBlock(250, 0, this.Color, canvas));
-            this.Blocks.Add(new TetrisBlock(200, 50, this.Color, canvas));
-            this.Blocks.Add(new TetrisBlock(250, 50, this.Color, canvas));
+            this.Blocks.Add(new TetrisBlock(4, 0));
+            this.Blocks.Add(new TetrisBlock(5, 0));
+            this.Blocks.Add(new TetrisBlock(4, 0));
+            this.Blocks.Add(new TetrisBlock(5, 0));
         }
 
         protected override void RotateCounterClockwiseCore()

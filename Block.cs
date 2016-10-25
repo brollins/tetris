@@ -1,123 +1,72 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Tetris
 {
     public class TetrisBlock
     {
-        private double x;
-        private double y;
-        private Color color;
-        private Canvas board;
-        private Rectangle blockGraphic;
 
+   // convert x and y to columnn and row
+   // remove anything related to pixels on moves
+   // remove the drop method
+   // abstract the drawing to new canvas class, have draw simply draw with color and coordinates (new scaffolding/stub class "TetrisBoard" with Draw method to allow it to compile)
+   // have draw pass in a canvas
+   // remove fields that are not core to block's properties
+   // simplify constructor
 
-        public TetrisBlock(double x, double y, Color color, Canvas board)
+        private int column;
+        private int row;
+
+        public TetrisBlock(int column, int row)
         {
-            this.x = x;
-            this.y = y;
-            this.Color = color;
-            this.board = board;
-            Draw();
+            this.column = column;
+            this.row = row;
         }
 
-        public double X
+        public int column
         {
             get
             {
-                return x;
+                return column;
             }
 
             set
             {
-                x = value;
+                column = value;
             }
         }
 
-        public double Y
+        public int row
         {
             get
             {
-                return y;
+                return row;
             }
 
             set
             {
-                y = value;
+                row = value;
             }
-        }
-
-        public void Drop()
-        {
-            y = y + 50;
-            Draw();
         }
 
         public void MoveLeft()
         {
-            x = x - 50;
-            Draw();
+            column--;
         }
 
         public void MoveRight()
         {
-            x = x + 50;
-            Draw();
+            column++;
         }
 
         public void MoveDown()
         {
-            Drop();
-            Draw();
+            row++;
         }
 
-        public Rectangle BlockGraphic
+        public void Draw(TetrisBoard tetrisboard)
         {
-            get
-            {
-                return blockGraphic;
-            }
-            set
-            {
-                blockGraphic = value;
-            }
-        }
-
-        public Color Color
-        {
-            get
-            {
-                return color;
-            }
-
-            set
-            {
-                color = value;
-            }
-        }
-
-        public void Draw()
-        {
-            if (BlockGraphic == null)
-            {
-                Rectangle rect = new Rectangle();
-                Canvas.SetTop(rect, y);
-                Canvas.SetLeft(rect, x);                
-                rect.Height = 48;
-                rect.Width = 48;
-                rect.Stroke = Brushes.White;
-                rect.StrokeThickness = 1;
-                rect.Fill = new SolidColorBrush(Color);
-                board.Children.Add(rect);
-                BlockGraphic = rect;
-            }
-
-            else
-            {
-                Canvas.SetTop(BlockGraphic, y);
-                Canvas.SetLeft(BlockGraphic, X);
-            }
+            tetrisboard.Draw()
         }        
     }
 }
