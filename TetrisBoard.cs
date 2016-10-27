@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Tetris
@@ -19,10 +21,10 @@ namespace Tetris
         private int previewOffset = 7;
         private int clearLocation = 200;
         private DispatcherTimer timer = new DispatcherTimer();
-        private int topRow = 1;
-        private int bottomRow = 20;
-        private int leftMostColumn = 1;
-        private int rightMostColumn = 10;
+        private int topRow = 0;
+        private int bottomRow = 19;
+        private int leftMostColumn = 0;
+        private int rightMostColumn = 9;
 
         public TetrisBoard() : this(null)
         {
@@ -65,7 +67,7 @@ namespace Tetris
             get
             {
                 return topRow;
-            }            
+            }
         }
 
         public int BottomRow
@@ -73,7 +75,7 @@ namespace Tetris
             get
             {
                 return bottomRow;
-            }            
+            }
         }
 
         public int LeftMostColumn
@@ -81,7 +83,7 @@ namespace Tetris
             get
             {
                 return leftMostColumn;
-            }            
+            }
         }
 
         public int RightMostColumn
@@ -96,12 +98,16 @@ namespace Tetris
         {
             tetrominosOnScreen = new Collection<Tetromino>();
             tetrominoQueue = new Queue<Tetromino>();
+            currentTetromino = null;
 
             DropNewTetromino();
 
             timer.Interval = TimeSpan.FromSeconds(1.25);
+            timer.Tick -= timer_Tick;
             timer.Tick += timer_Tick;
+
             timer.Start();
+            RedrawBoard();
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -110,13 +116,15 @@ namespace Tetris
             if (CurrentTetromino.IsAtBottom())
             {
                 tetrominosOnScreen.Add(CurrentTetromino);
+                ClearCompletedLines();
                 DropNewTetromino();
+
             }
             else
             {
                 if (!IsColliding())
                 {
-                    CurrentTetromino.Drop();
+                    Drop();
                     ClearCompletedLines();
                 }
             }
@@ -145,6 +153,7 @@ namespace Tetris
                             if (block.Column == currentblock.Column && block.Row == currentblock.Row)
                             {
                                 gameOver = true;
+                                timer.Stop();
                             }
                         }
                     }
@@ -153,7 +162,7 @@ namespace Tetris
                 if (gameOver)
                 {
                     timer.Stop();
-                    if (MessageBox.Show(null, "Would you like to play again?", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Would you like to play again?", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         StartGame();
                     }
@@ -174,7 +183,7 @@ namespace Tetris
             int randomNumber = random.Next(1, 8);
             Tetromino randomTetromino = null;
             switch (randomNumber)
-            {                
+            {
                 case 1:
                     randomTetromino = new ITetromino(this, tetrominosOnScreen);
                     break;
@@ -233,34 +242,81 @@ namespace Tetris
 
         protected virtual void DrawCore(int column, int row, Color color)
         {
-            //public void Draw()
-            //{
-            //    if (BlockGraphic == null)
-            //    {
-            //        Rectangle rect = new Rectangle();
-            //        Canvas.SetTop(rect, y);
-            //        Canvas.SetLeft(rect, x);
-            //        rect.Height = 48;
-            //        rect.Width = 48;
-            //        rect.Stroke = Brushes.White;
-            //        rect.StrokeThickness = 1;
-            //        rect.Fill = new SolidColorBrush(Color);
-            //        board.Children.Add(rect);
-            //        BlockGraphic = rect;
-            //    }
+            Canvas playArea = (Canvas)drawingContext;
+            Rectangle rect = new Rectangle();
+            Canvas.SetTop(rect, row * 50);
+            Canvas.SetLeft(rect, column * 50);
+            rect.Height = 48;
+            rect.Width = 48;
+            rect.Stroke = Brushes.White;
+            rect.StrokeThickness = 1;
+            rect.Fill = new SolidColorBrush(color);
+            playArea.Children.Add(rect);
 
-            //    else
-            //    {
-            //        Canvas.SetTop(BlockGraphic, y);
-            //        Canvas.SetLeft(BlockGraphic, X);
-            //    }
-            //}
+        }
+
+        public void Drop()
+        {
+            currentTetromino.Drop();
+            RedrawBoard();
+        }
+
+        public void MoveLeft()
+        {
+            currentTetromino.MoveLeft();
+            RedrawBoard();
+
+        }
+
+        public void MoveRight()
+        {
+            currentTetromino.MoveRight();
+            RedrawBoard();
+
+        }
+
+        public void MoveDown()
+        {
+            currentTetromino.MoveDown();
+            RedrawBoard();
+
+        }
+
+        public void RotateCounterClockwise()
+        {
+            currentTetromino.RotateCounterClockwise();
+            RedrawBoard();
+
+        }
+
+        public void RotateClockwise()
+        {
+            currentTetromino.RotateClockwise();
+            RedrawBoard();
+
+        }
+
+        public void RedrawBoard()
+        {
+            ClearCanvas();
+            foreach (var tetrominoOnScreen in tetrominosOnScreen)
+            {
+                tetrominoOnScreen.Draw();
+            }
+            currentTetromino.Draw();
+
+        }
+
+        public void ClearCanvas()
+        {
+            Canvas playArea = (Canvas)drawingContext;
+            playArea.Children.Clear();
         }
 
         private void ClearCompletedLines()
         {
             Collection<TetrisBlock> blocksInALine = new Collection<TetrisBlock>();
-            for (int i = 1000; i > 0; i -= 50)
+            for (int i = bottomRow + 1; i > 0; i -= 1)
             {
                 foreach (var tetrominoOnScreen in tetrominosOnScreen)
                 {
@@ -276,20 +332,15 @@ namespace Tetris
                 {
                     foreach (var block in blocksInALine)
                     {
-                        Canvas.SetTop(block.BlockGraphic, -clearLocation);
-                        Canvas.SetLeft(block.BlockGraphic, -clearLocation);
-                        block.Column = -clearLocation;
-                        block.Row = -clearLocation;
-                        board.Children.Remove(block.BlockGraphic);
-                        Score += 1000;
-
+                        block.Column = clearLocation;
+                        block.Row = clearLocation;                  
                     }
 
                     foreach (var tetrominoOnScreen in tetrominosOnScreen)
                     {
                         foreach (var block in tetrominoOnScreen.Blocks)
                         {
-                            if (block.Column < i)
+                            if (block.Row <= i)
                             {
                                 block.MoveDown();
                             }

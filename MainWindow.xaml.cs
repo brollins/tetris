@@ -22,27 +22,27 @@ namespace WpfApplication2
         {
             if (e.Key == Key.Right)
             {
-                tetrisBoard.CurrentTetromino.MoveRight();
+                tetrisBoard.MoveRight();
             }
 
             if (e.Key == Key.Left)
             {
-                tetrisBoard.CurrentTetromino.MoveLeft();
+                tetrisBoard.MoveLeft();
             }
 
             if (e.Key == Key.Down)
             {
-                tetrisBoard.CurrentTetromino.MoveDown();
+                tetrisBoard.MoveDown();
             }
 
             if (e.Key == Key.A)
             {
-                tetrisBoard.CurrentTetromino.RotateCounterClockwise();
+                tetrisBoard.RotateCounterClockwise();
             }
 
             if (e.Key == Key.D)
             {
-                tetrisBoard.CurrentTetromino.RotateClockwise();
+                tetrisBoard.RotateClockwise();
             }
         }
     }
