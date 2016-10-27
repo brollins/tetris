@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,7 +10,7 @@ using System.Windows.Threading;
 
 namespace Tetris
 {
-    public class TetrisBoard
+    public class TetrisBoard : INotifyPropertyChanged
     {
         protected Collection<Tetromino> tetrominosOnScreen;
         private Queue<Tetromino> tetrominoQueue;
@@ -24,6 +25,9 @@ namespace Tetris
         private int bottomRow = 19;
         private int leftMostColumn = 0;
         private int rightMostColumn = 9;
+        private int score;
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         public TetrisBoard() : this(null)
         {
@@ -45,6 +49,29 @@ namespace Tetris
             set
             {
                 drawingContext = value;
+            }
+        }
+
+        public int Score
+        {
+            get
+            {
+                return score;
+            }
+
+            set
+            {
+                score = value;
+                OnPropertyChanged("Score");               
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                var args = new PropertyChangedEventArgs(propertyName);
+                PropertyChanged(this, args);
             }
         }
 
@@ -332,7 +359,9 @@ namespace Tetris
                     foreach (var block in blocksInALine)
                     {
                         block.Column = clearLocation;
-                        block.Row = clearLocation;                  
+                        block.Row = clearLocation;
+                        Score += 1000;
+
                     }
 
                     foreach (var tetrominoOnScreen in tetrominosOnScreen)
@@ -349,6 +378,5 @@ namespace Tetris
                 blocksInALine.Clear();
             }
         }
-
     }
 }
