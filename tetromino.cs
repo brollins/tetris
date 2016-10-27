@@ -11,10 +11,7 @@ namespace Tetris
         private Color color;
         protected Collection<Tetromino> tetrominosOnScreen;
         private static Random random = new Random();
-        private int topRow = 1;
-        private int bottomRow = 20;
-        private int leftMostColumn = 1;
-        private int rightMostColumn = 10;
+      
 
         public Tetromino()
         {
@@ -128,7 +125,7 @@ namespace Tetris
             bool atBottom = false;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.Row > bottomRow || IsTouching())
+                if (tetrisblock.Row > tetrisBoard.BottomRow || IsTouching())
                 {
                     atBottom = true;
                 }
@@ -142,13 +139,13 @@ namespace Tetris
             bool isValidPosition = true;
             foreach (var tetrisblock in Blocks)
             {
-                if (tetrisblock.Column > rightMostColumn)
+                if (tetrisblock.Column > tetrisBoard.RightMostColumn)
                     isValidPosition = false;
 
-                if (tetrisblock.Column < leftMostColumn)
+                if (tetrisblock.Column < tetrisBoard.LeftMostColumn)
                     isValidPosition = false;
 
-                if (tetrisblock.Row > bottomRow)
+                if (tetrisblock.Row > tetrisBoard.BottomRow)
                     isValidPosition = false;
 
                 foreach (var tetrominoOnScreen in tetrominosOnScreen)

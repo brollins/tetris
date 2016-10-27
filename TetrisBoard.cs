@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -18,7 +19,10 @@ namespace Tetris
         private int previewOffset = 7;
         private int clearLocation = 200;
         private DispatcherTimer timer = new DispatcherTimer();
-        
+        private int topRow = 1;
+        private int bottomRow = 20;
+        private int leftMostColumn = 1;
+        private int rightMostColumn = 10;
 
         public TetrisBoard() : this(null)
         {
@@ -56,6 +60,172 @@ namespace Tetris
             }
         }
 
+        public int TopRow
+        {
+            get
+            {
+                return topRow;
+            }            
+        }
+
+        public int BottomRow
+        {
+            get
+            {
+                return bottomRow;
+            }            
+        }
+
+        public int LeftMostColumn
+        {
+            get
+            {
+                return leftMostColumn;
+            }            
+        }
+
+        public int RightMostColumn
+        {
+            get
+            {
+                return rightMostColumn;
+            }
+        }
+
+        public void StartGame()
+        {
+            tetrominosOnScreen = new Collection<Tetromino>();
+            tetrominoQueue = new Queue<Tetromino>();
+
+            DropNewTetromino();
+
+            timer.Interval = TimeSpan.FromSeconds(1.25);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+
+            if (CurrentTetromino.IsAtBottom())
+            {
+                tetrominosOnScreen.Add(CurrentTetromino);
+                DropNewTetromino();
+            }
+            else
+            {
+                if (!IsColliding())
+                {
+                    CurrentTetromino.Drop();
+                    ClearCompletedLines();
+                }
+            }
+        }
+
+        private void DropNewTetromino()
+        {
+            bool gameOver = false;
+            if (CurrentTetromino == null)
+            {
+                tetrominoQueue.Enqueue(GetRandomTetromino());
+                CurrentTetromino = GetRandomTetromino();
+                CurrentTetromino.Draw();
+            }
+            else
+            {
+                CurrentTetromino = tetrominoQueue.Dequeue();
+                CurrentTetromino.Draw();
+
+                foreach (var tetrominoOnScreen in tetrominosOnScreen)
+                {
+                    foreach (var block in tetrominoOnScreen.Blocks)
+                    {
+                        foreach (var currentblock in CurrentTetromino.Blocks)
+                        {
+                            if (block.Column == currentblock.Column && block.Row == currentblock.Row)
+                            {
+                                gameOver = true;
+                            }
+                        }
+                    }
+                }
+
+                if (gameOver)
+                {
+                    timer.Stop();
+                    if (MessageBox.Show(null, "Would you like to play again?", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        StartGame();
+                    }
+                    else
+                    {
+                        //need to figure out how to stop the game.
+                    }
+                }
+                else
+                {
+                    tetrominoQueue.Enqueue(GetRandomTetromino());
+                }
+            }
+        }
+
+        public Tetromino GetRandomTetromino()
+        {
+            int randomNumber = random.Next(1, 8);
+            Tetromino randomTetromino = null;
+            switch (randomNumber)
+            {                
+                case 1:
+                    randomTetromino = new ITetromino(this, tetrominosOnScreen);
+                    break;
+                case 2:
+                    randomTetromino = new JTetromino(this, tetrominosOnScreen);
+                    break;
+                case 3:
+                    randomTetromino = new OTetromino(this, tetrominosOnScreen);
+                    break;
+                case 4:
+                    randomTetromino = new ZTetromino(this, tetrominosOnScreen);
+                    break;
+                case 5:
+                    randomTetromino = new STetromino(this, tetrominosOnScreen);
+                    break;
+                case 6:
+                    randomTetromino = new LTetromino(this, tetrominosOnScreen);
+                    break;
+                case 7:
+                    randomTetromino = new TTetromino(this, tetrominosOnScreen);
+                    break;
+                default:
+                    randomTetromino = new ITetromino(this, tetrominosOnScreen);
+                    break;
+            }
+            return randomTetromino;
+        }
+
+        public bool IsColliding()
+        {
+            bool isColliding = false;
+            foreach (var tetrominoOnScreen in tetrominosOnScreen)
+            {
+                foreach (var blockOnScreen in tetrominoOnScreen.Blocks)
+                {
+                    foreach (var block in CurrentTetromino.Blocks)
+                    {
+                        if (block.Row + 1 == blockOnScreen.Row && block.Column == blockOnScreen.Column)
+                        {
+                            isColliding = true;
+                        }
+                    }
+                    if (blockOnScreen.Row == TopRow)
+                    {
+                        isColliding = true;
+                    }
+                }
+            }
+            return isColliding;
+        }
+
         public void Draw(int column, int row, Color color)
         {
             DrawCore(column, row, color);
@@ -85,97 +255,6 @@ namespace Tetris
             //        Canvas.SetLeft(BlockGraphic, X);
             //    }
             //}
-        }
-
-        public void StartGame()
-        {
-            tetrominosOnScreen = new Collection<Tetromino>();
-            tetrominoQueue = new Queue<Tetromino>();
-        
-            DropNewTetromino();
-
-            timer.Interval = TimeSpan.FromSeconds(1.25);
-            timer.Tick += timer_Tick;
-            timer.Start();
-        }
-
-        void timer_Tick(object sender, EventArgs e)
-        {
-
-            if (CurrentTetromino.IsAtBottom())
-            {
-                tetrominosOnScreen.Add(CurrentTetromino);
-                DropNewTetromino();
-            }
-            else
-            {
-                if (!IsColliding())
-                {
-                    CurrentTetromino.Drop();
-                    ClearCompletedLines();
-                }
-            }
-        }             
-
-        public bool IsColliding()
-        {
-            bool isColliding = false;
-            foreach (var tetrominoOnScreen in tetrominosOnScreen)
-            {
-                foreach (var blockOnScreen in tetrominoOnScreen.Blocks)
-                {
-                    foreach (var block in CurrentTetromino.Blocks)
-                    {
-                        if (block.Column + 1 == blockOnScreen.Column && block.Row == blockOnScreen.Row)
-                        {
-                            isColliding = true;
-                        }
-                    }
-                    if (blockOnScreen.Column == 0)
-                    {
-                        isColliding = true;
-                    }
-                }
-            }
-            return isColliding;
-        }                
-
-        public Tetromino GetRandomTetromino()
-        {
-            int randomNumber = random.Next(1, 8);
-
-            if (randomNumber == 1)
-            {
-                return new ITetromino(this, tetrominosOnScreen);
-            }
-            if (randomNumber == 2)
-            {
-                return new JTetromino(this, tetrominosOnScreen);
-            }
-            if (randomNumber == 3)
-            {
-                return new OTetromino(this, tetrominosOnScreen);
-            }
-            if (randomNumber == 4)
-            {
-                return new ZTetromino(this, tetrominosOnScreen);
-            }
-            if (randomNumber == 5)
-            {
-                return new STetromino(this, tetrominosOnScreen);
-            }
-            if (randomNumber == 6)
-            {
-                return new LTetromino(this, tetrominosOnScreen);
-            }
-            if (randomNumber == 7)
-            {
-                return new TTetromino(this, tetrominosOnScreen);
-            }
-            else
-            {
-                return null;
-            }
         }
 
         private void ClearCompletedLines()
@@ -221,78 +300,5 @@ namespace Tetris
             }
         }
 
-        private void DropNewTetromino()
-        {
-            bool gameOver = false;
-            if (CurrentTetromino == null)
-            {
-                tetrominoQueue.Enqueue(GetRandomTetromino());
-                nextTetromino = tetrominoQueue.Peek();
-                foreach (var block in nextTetromino.Blocks)
-                {
-                    Canvas.SetTop(block.BlockGraphic, block.Column + previewOffset);
-                    block.Column = block.Column + previewOffset;
-                }
-                nextTetromino.Draw();
-                CurrentTetromino = GetRandomTetromino();
-                CurrentTetromino.Draw();
-            }
-            else
-            {
-                CurrentTetromino = tetrominoQueue.Dequeue();
-
-                foreach (var block in CurrentTetromino.Blocks)
-                {
-                    Canvas.SetTop(block.BlockGraphic, block.Column - previewOffset);
-                    block.Column = block.Column - previewOffset;
-                }
-
-                CurrentTetromino.Draw();
-
-                foreach (var tetrominoOnScreen in tetrominosOnScreen)
-                {
-                    foreach (var block in tetrominoOnScreen.Blocks)
-                    {
-                        foreach (var currentblock in CurrentTetromino.Blocks)
-                        {
-                            if (block.Column == currentblock.Column && block.Row == currentblock.Row)
-                            {
-                                gameOver = true;
-                            }
-                        }
-                    }
-                }
-
-                if (gameOver)
-                {
-                    timer.Stop();
-                    if (MessageBox.Show(this, "Would you like to play again?", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
-                        tetrominosOnScreen.Clear();
-                        board.Children.Clear();
-                        Score = 0;
-                        timer.Start();
-                        tetrominoQueue.Clear();
-                        CurrentTetromino = null;
-                        DropNewTetromino();
-                    }
-                    else
-                    {
-                        this.Close();
-                    }
-                }
-                else
-                {
-                    tetrominoQueue.Enqueue(GetRandomTetromino());
-                    nextTetromino = tetrominoQueue.Peek();
-                    foreach (var block in nextTetromino.Blocks)
-                    {
-                        Canvas.SetTop(block.BlockGraphic, block.Column + previewOffset);
-                        block.Column = block.Column + previewOffset;
-                    }
-                    nextTetromino.Draw();
-                }
-            }
-        }  
     }
 }
