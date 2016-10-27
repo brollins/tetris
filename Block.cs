@@ -3,16 +3,7 @@
 namespace Tetris
 {
     public class TetrisBlock
-    {
-
-   // convert x and y to Columnn and row
-   // remove anything related to pixels on moves
-   // remove the drop method
-   // abstract the drawing to new canvas class, have draw simply draw with color and coordinates (new scaffolding/stub class "TetrisBoard" with Draw method to allow it to compile)
-   // have draw pass in a canvas
-   // remove fields that are not core to block's properties
-   // simplify constructor
-
+    {        
         private int column;
         private int row;
 

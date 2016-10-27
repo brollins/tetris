@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Tetris;
-using System.ComponentModel;
 
 namespace WpfApplication2
 {
