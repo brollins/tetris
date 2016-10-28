@@ -10,7 +10,7 @@
         <Canvas Name="playArea" Background="Black" Width="500" Height="1050" Margin="0,-10,0,-10" />
 
         <Label x:Name="scoreBox" HorizontalAlignment="Center" Height="62" Background="Transparent"
-                 Content="{Binding Score, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="30" HorizontalContentAlignment="Center"
+                 Content="{Binding Score, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ContentStringFormat="{}{0:#,##0}" FontSize="30" HorizontalContentAlignment="Center"
                VerticalContentAlignment="Center" VerticalAlignment="Top" Width="148" Margin="679,301,8,0" RenderTransformOrigin="0.248,2.104" />
     </Grid>
 </Window>

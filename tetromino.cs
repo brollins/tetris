@@ -67,7 +67,7 @@ namespace Tetris
 
         public void MoveLeft()
         {
-            if (!IsAtBottom())
+            //if (!IsAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -85,7 +85,7 @@ namespace Tetris
 
         public void MoveRight()
         {
-            if (!IsAtBottom())
+            //if (!IsAtBottom())
             {
                 foreach (var tetrisBlock in Blocks)
                 {
@@ -143,9 +143,6 @@ namespace Tetris
                     isValidPosition = false;
 
                 if (tetrisblock.Column < tetrisBoard.LeftMostColumn)
-                    isValidPosition = false;
-
-                if (tetrisblock.Row > tetrisBoard.BottomRow)
                     isValidPosition = false;
 
                 foreach (var tetrominoOnScreen in tetrominosOnScreen)

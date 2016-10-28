@@ -20,7 +20,6 @@ namespace Tetris
         private Tetromino currentTetromino;
         private object drawingContext;
         private int previewOffset = 7;
-        private Tetromino nextTetromino;
         private int clearLocation = 200;
         private int topRow = 0;
         private int bottomRow = 19;
@@ -124,6 +123,7 @@ namespace Tetris
             tetrominosOnScreen = new Collection<Tetromino>();
             tetrominoQueue = new Queue<Tetromino>();
             currentTetromino = null;
+            Score = 1000000;
 
             DropNewTetromino();
 
@@ -134,7 +134,7 @@ namespace Tetris
             timer.Start();
             RedrawBoard();
         }
-
+        
         void timer_Tick(object sender, EventArgs e)
         {
 
@@ -143,6 +143,7 @@ namespace Tetris
                 tetrominosOnScreen.Add(CurrentTetromino);
                 ClearCompletedLines();
                 DropNewTetromino();
+                RedrawBoard();
             }
             else
             {
@@ -192,7 +193,7 @@ namespace Tetris
                     }
                     else
                     {
-                        //need to figure out how to stop the game.
+                        timer.Stop();
                     }
                 }
                 else
@@ -322,6 +323,17 @@ namespace Tetris
                 tetrominoOnScreen.Draw();
             }
             currentTetromino.Draw();
+
+            if (tetrominoQueue.Count > 0)
+            {
+                Tetromino nextTetromino = tetrominoQueue.Peek();
+                foreach (var block in nextTetromino.Blocks)
+                {
+                    block.Column += previewOffset;
+                    block.Draw(this, nextTetromino.Color);
+                    block.Column -= previewOffset;
+                }
+            }
         }
 
         public void ClearCanvas()
@@ -350,10 +362,12 @@ namespace Tetris
                     foreach (var block in blocksInALine)
                     {
                         block.Column = clearLocation;
-                        block.Row = clearLocation;
-                        Score += 1000;
-
+                        block.Row = clearLocation;                       
                     }
+
+                    Score += 1000;
+                    double level = Score / 5000;
+                    timer.Interval = TimeSpan.FromSeconds(1.25 - (level * .1));
 
                     foreach (var tetrominoOnScreen in tetrominosOnScreen)
                     {
