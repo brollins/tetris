@@ -7,10 +7,7 @@ namespace Tetris
         private int column;
         private int row;
 
-        public TetrisBlock () : this(0, 0)
-        {
-
-        }
+        public TetrisBlock() : this(0, 0) { }
 
         public TetrisBlock(int column, int row)
         {

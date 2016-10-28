@@ -14,21 +14,20 @@ namespace Tetris
     {
         protected Collection<Tetromino> tetrominosOnScreen;
         private Queue<Tetromino> tetrominoQueue;
-        private object drawingContext;
-        private Tetromino currentTetromino;
-        private Tetromino nextTetromino;
-        private static Random random = new Random();
-        private int previewOffset = 7;
-        private int clearLocation = 200;
         private DispatcherTimer timer = new DispatcherTimer();
+        public event PropertyChangedEventHandler PropertyChanged;
+        private static Random random = new Random();
+        private Tetromino currentTetromino;
+        private object drawingContext;
+        private int previewOffset = 7;
+        private Tetromino nextTetromino;
+        private int clearLocation = 200;
         private int topRow = 0;
         private int bottomRow = 19;
         private int leftMostColumn = 0;
         private int rightMostColumn = 9;
         private int score;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
+        
         public TetrisBoard() : this(null)
         {
 
@@ -144,7 +143,6 @@ namespace Tetris
                 tetrominosOnScreen.Add(CurrentTetromino);
                 ClearCompletedLines();
                 DropNewTetromino();
-
             }
             else
             {
@@ -278,7 +276,6 @@ namespace Tetris
             rect.StrokeThickness = 1;
             rect.Fill = new SolidColorBrush(color);
             playArea.Children.Add(rect);
-
         }
 
         public void Drop()
@@ -291,35 +288,30 @@ namespace Tetris
         {
             currentTetromino.MoveLeft();
             RedrawBoard();
-
         }
 
         public void MoveRight()
         {
             currentTetromino.MoveRight();
             RedrawBoard();
-
         }
 
         public void MoveDown()
         {
             currentTetromino.MoveDown();
             RedrawBoard();
-
         }
 
         public void RotateCounterClockwise()
         {
             currentTetromino.RotateCounterClockwise();
             RedrawBoard();
-
         }
 
         public void RotateClockwise()
         {
             currentTetromino.RotateClockwise();
             RedrawBoard();
-
         }
 
         public void RedrawBoard()
@@ -330,7 +322,6 @@ namespace Tetris
                 tetrominoOnScreen.Draw();
             }
             currentTetromino.Draw();
-
         }
 
         public void ClearCanvas()

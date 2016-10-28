@@ -13,3 +13,6 @@ C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplicati
 C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\Tetris.Properties.Resources.resources
 C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\Tetris.exe
 C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\WpfApplication2\obj\Debug\Tetris.pdb
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\Tetris\bin\Debug\Tetris.exe.config
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\Tetris\obj\Debug\Tetris.exe
+C:\Users\brad\Documents\Visual Studio 2015\Projects\WpfApplication1\Tetris\obj\Debug\Tetris.pdb

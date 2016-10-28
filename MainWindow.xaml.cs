@@ -1,24 +1,19 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using Tetris;
 
-namespace WpfApplication2
+namespace Tetris
 {
     public partial class MainWindow : Window 
     {
-
         private TetrisBoard tetrisBoard;
         
-
         public MainWindow()
         {
             InitializeComponent();
             tetrisBoard = new TetrisBoard(playArea);
             scoreBox.DataContext = tetrisBoard;
             tetrisBoard.StartGame();
-        }     
-                
+        }                     
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {

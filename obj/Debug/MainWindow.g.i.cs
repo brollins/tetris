@@ -29,10 +29,10 @@ using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
-using WpfApplication2;
+using Tetris;
 
 
-namespace WpfApplication2 {
+namespace Tetris {
     
     
     /// <summary>
@@ -97,7 +97,7 @@ namespace WpfApplication2 {
             case 1:
             
             #line 8 "..\..\MainWindow.xaml"
-            ((WpfApplication2.MainWindow)(target)).KeyDown += new System.Windows.Input.KeyEventHandler(this.Window_KeyDown);
+            ((Tetris.MainWindow)(target)).KeyDown += new System.Windows.Input.KeyEventHandler(this.Window_KeyDown);
             
             #line default
             #line hidden
